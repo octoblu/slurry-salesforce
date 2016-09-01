@@ -1,6 +1,6 @@
 http    = require 'http'
 _       = require 'lodash'
-Twitter = require 'twitter'
+Salesforce = require 'node-salesforce'
 MeshbluHttp = require 'meshblu-http'
 MeshbluConfig = require 'meshblu-config'
 
@@ -8,9 +8,9 @@ class PublicFilteredStream
   constructor: ({@encrypted, @auth, @userDeviceUuid}) ->
     meshbluConfig = new MeshbluConfig({@auth}).toJSON()
     meshbluHttp = new MeshbluHttp meshbluConfig
-    @twitter = new Twitter({
-      consumer_key:        process.env.SLURRY_TWITTER_TWITTER_CLIENT_ID
-      consumer_secret:     process.env.SLURRY_TWITTER_TWITTER_CLIENT_SECRET
+    @salesforce = new Salesforce({
+      consumer_id:        process.env.SLURRY_SALESFORCE_SALESFORCE_CLIENT_ID
+      consumer_secret:     process.env.SLURRY_SALESFORCE_SALESFORCE_CLIENT_SECRET
       access_token_key:    @encrypted.secrets.credentials.token
       access_token_secret: @encrypted.secrets.credentials.secret
     })
@@ -21,7 +21,7 @@ class PublicFilteredStream
       track: _.join(slurry.track, ',')
       follow: _.join(slurry.follow, ',')
 
-    @twitter.stream 'statuses/filter', metadata, (stream) =>
+    @salesforce.stream 'statuses/filter', metadata, (stream) =>
       stream.on 'data', (event) =>
         message =
           devices: ['*']
