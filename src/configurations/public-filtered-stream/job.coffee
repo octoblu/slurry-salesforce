@@ -15,19 +15,19 @@ class PublicFilteredStream
     @_throttledMessage = _.throttle meshbluHttp.message, 500, leading: true, trailing: false
 
   do: ({slurry}, callback) =>
-    @salesforce.streaming.topic('LeadAddress').subscribe (event) =>
-      console.log 'Event Type : ' + event.event.type
-      console.log 'Event Created : ' + event.event.createdDate
-      console.log 'Object Id : ' + event.sobject.Id
+    { topic, disabled } = slurry
+    return @_userError 422, "Requires Topic to subscribe" if !topic?
 
+    @salesforce.destroy = @salesforce.logout
+    @salesforce.streaming.topic(topic).subscribe (event) =>
+      
       message =
         devices: ['*']
         data: event
 
       @_throttledMessage message, as: @userDeviceUuid, (error) =>
         console.error error if error?
-
-      return callback null, event
+    return callback null, @salesforce
 
   _userError: (code, message) =>
     error = new Error message

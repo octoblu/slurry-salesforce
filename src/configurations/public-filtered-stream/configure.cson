@@ -15,5 +15,5 @@
           type: 'string'
           title: 'PushTopic'
           description: 'The saved query topic'
-          default: 'InvoiceStuff'
+          default: 'Lead'
 }
