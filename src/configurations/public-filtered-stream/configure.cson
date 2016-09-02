@@ -11,4 +11,9 @@
           type: 'boolean'
           title: 'Disabled'
           description: 'Stop streaming'
+        topic:
+          type: 'string'
+          title: 'PushTopic'
+          description: 'The saved query topic'
+          default: 'InvoiceStuff'
 }
