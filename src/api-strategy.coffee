@@ -10,15 +10,15 @@ class SalesforceStrategy extends PassportSalesforce
     options = {
       clientID:     process.env.SLURRY_SALESFORCE_SALESFORCE_CLIENT_ID
       clientSecret: process.env.SLURRY_SALESFORCE_SALESFORCE_CLIENT_SECRET
-      callbackUrl:  process.env.SLURRY_SALESFORCE_SALESFORCE_CALLBACK_URL
+      callbackURL:  process.env.SLURRY_SALESFORCE_SALESFORCE_CALLBACK_URL
     }
 
     super options, @onAuthorization
 
   onAuthorization: (accessToken, refreshToken, profile, callback) =>
     callback null, {
-      id: profile.id
-      username: profile.username
+      id: profile.user_id
+      username: profile.name
       secrets:
         credentials:
           secret: accessToken

@@ -11,8 +11,6 @@ class PublicFilteredStream
     @salesforce = new Salesforce({
       consumer_id:        process.env.SLURRY_SALESFORCE_SALESFORCE_CLIENT_ID
       consumer_secret:     process.env.SLURRY_SALESFORCE_SALESFORCE_CLIENT_SECRET
-      access_token_key:    @encrypted.secrets.credentials.token
-      access_token_secret: @encrypted.secrets.credentials.secret
     })
     @_throttledMessage = _.throttle meshbluHttp.message, 500, leading: true, trailing: false
 
@@ -20,6 +18,11 @@ class PublicFilteredStream
     metadata =
       track: _.join(slurry.track, ',')
       follow: _.join(slurry.follow, ',')
+
+    @salesforce.streaming.topic('InvoiceStatementUpdates').subscribe (message) ->
+      console.log 'Event Type : ' + message.event.type
+      console.log 'Event Created : ' + message.event.createdDate
+      console.log 'Object Id : ' + message.sobject.Id
 
     @salesforce.stream 'statuses/filter', metadata, (stream) =>
       stream.on 'data', (event) =>
