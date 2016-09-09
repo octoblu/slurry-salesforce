@@ -1,8 +1,9 @@
-http    = require 'http'
-_       = require 'lodash'
-Salesforce = require 'jsforce'
-MeshbluHttp = require 'meshblu-http'
+http          = require 'http'
+_             = require 'lodash'
+Salesforce    = require 'jsforce'
+MeshbluHttp   = require 'meshblu-http'
 MeshbluConfig = require 'meshblu-config'
+SlurryStream  = require 'slurry-core/slurry-stream'
 
 class PublicFilteredStream
   constructor: ({@encrypted, @auth, @userDeviceUuid}) ->
@@ -18,16 +19,19 @@ class PublicFilteredStream
     { topic, disabled } = slurry
     return @_userError 422, "Requires Topic to subscribe" if !topic?
 
-    @salesforce.destroy = @salesforce.logout
+    slurryStream = new SlurryStream
+    slurryStream.destroy = =>
+      @salesforce.logout()
+
     @salesforce.streaming.topic(topic).subscribe (event) =>
-      
       message =
         devices: ['*']
         data: event
 
       @_throttledMessage message, as: @userDeviceUuid, (error) =>
-        console.error error if error?
-    return callback null, @salesforce
+        slurryStream.emit 'error', error if error?
+
+    return callback null, slurryStream
 
   _userError: (code, message) =>
     error = new Error message
