@@ -16,6 +16,7 @@ class SalesforceStrategy extends PassportSalesforce
     super options, @onAuthorization
 
   onAuthorization: (accessToken, refreshToken, profile, callback) =>
+    console.log 'onauth', JSON.stringify profile
     callback null, {
       id: profile.user_id
       username: profile.name
