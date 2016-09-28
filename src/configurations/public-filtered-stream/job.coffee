@@ -10,7 +10,7 @@ class PublicFilteredStream
     meshbluConfig = new MeshbluConfig({@auth}).toJSON()
     meshbluHttp = new MeshbluHttp meshbluConfig
     @salesforce = new Salesforce.Connection({
-        instanceUrl: @salesforce.instanceUrl
+        instanceUrl: @salesforce.toolilng.instanceUrl
         accessToken: @encrypted.secrets.credentials.secret
       })
     @_throttledMessage = _.throttle meshbluHttp.message, 500, leading: true, trailing: false
