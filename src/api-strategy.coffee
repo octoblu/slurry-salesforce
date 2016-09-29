@@ -1,4 +1,5 @@
-_ = require 'lodash'
+_                  = require 'lodash'
+url                = require 'url'
 PassportSalesforce = require 'passport-salesforce'
 
 class SalesforceStrategy extends PassportSalesforce
@@ -16,14 +17,18 @@ class SalesforceStrategy extends PassportSalesforce
     super options, @onAuthorization
 
   onAuthorization: (accessToken, refreshToken, profile, callback) =>
-    console.log 'onauth', JSON.stringify profile
     callback null, {
       id: profile.user_id
       username: profile.name
       secrets:
+        instanceUrl: @instanceUrl profile
         credentials:
           secret: accessToken
           refreshToken: refreshToken
     }
+
+  instanceUrl: (profile) =>
+    "https://#{url.parse(profile.urls.enterprise).hostname}"
+
 
 module.exports = SalesforceStrategy
