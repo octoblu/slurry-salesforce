@@ -9,6 +9,7 @@ debug = require('debug')('slurry-salesforce')
 
 class PublicFilteredStream
   constructor: ({@encrypted, @auth, @userDeviceUuid}) ->
+    debug 'New Stream', @userDeviceUuid
     meshbluConfig = new MeshbluConfig({@auth}).toJSON()
     meshbluHttp = new MeshbluHttp meshbluConfig
     @salesforce = new Salesforce.Connection({
@@ -18,6 +19,8 @@ class PublicFilteredStream
     @_throttledMessage = _.throttle meshbluHttp.message, 500, leading: true, trailing: false
 
   do: ({slurry}, callback) =>
+    console.log 'Am I working?'
+    console.log 'slurry', slurry
     { topic, disabled } = slurry
     return @_userError 422, "Requires Topic to subscribe" if !topic?
     return @_userError 422, "Missing instance URL in credentials device" if _.isEmpty @encrypted.secrets.instanceUrl
@@ -27,6 +30,8 @@ class PublicFilteredStream
       @salesforce.logout()
 
     @salesforce.streaming.topic(topic).subscribe (event) =>
+      console.log('topic', topic)
+      console.log('event', event)
       message =
         devices: ['*']
         data: event

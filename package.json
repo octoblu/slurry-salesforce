@@ -1,6 +1,6 @@
 {
   "name": "slurry-salesforce",
-  "version": "1.2.7",
+  "version": "2.0.0",
   "description": "Put some description here",
   "keywords": [],
   "homepage": "https://github.com/octoblu/salesforce",
@@ -59,8 +59,8 @@
     "passport": "^0.3.2",
     "passport-octoblu": "^3.0.0",
     "passport-salesforce": "0.0.2",
-    "slurry-core": "^1.11.0",
-    "slurry-spreader": "^1.4.3"
+    "slurry-core": "^1.13.0",
+    "slurry-spreader": "^1.4.6"
   },
   "peerDependencies": {},
   "engines": {
