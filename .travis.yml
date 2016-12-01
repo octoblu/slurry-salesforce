@@ -4,13 +4,6 @@ node_js:
 branches:
   only:
     - '/^v[0-9]/'
-addons:
-  code_climate:
-    repo_token: 8ee67bb25b7cfc1448517e4aab501be058c89152358633169c0020f49f3fbdc3
-before_script:
-  - npm install -g codeclimate-test-reporter
-after_script:
-  - codeclimate-test-reporter < coverage/lcov.info
 deploy:
   provider: npm
   email: serveradmin@octoblu.com

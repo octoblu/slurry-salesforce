@@ -11,8 +11,8 @@ SlurrySpreader   = require 'slurry-spreader'
 MISSING_SERVICE_URL = 'Missing required environment variable: SLURRY_SALESFORCE_SERVICE_URL'
 MISSING_MANAGER_URL = 'Missing required environment variable: SLURRY_SALESFORCE_MANAGER_URL'
 MISSING_APP_OCTOBLU_HOST = 'Missing required environment variable: APP_OCTOBLU_HOST'
-MISSING_SPREADER_REDIS_URI   = 'Missing required environment variable: SLURRY_SPREADER_REDIS_URI'
-MISSING_SPREADER_NAMESPACE   = 'Missing required environment variable: SLURRY_SPREADER_NAMESPACE'
+MISSING_SPREADER_REDIS_URI = 'Missing required environment variable: SLURRY_SPREADER_REDIS_URI'
+MISSING_SPREADER_NAMESPACE = 'Missing required environment variable: SLURRY_SPREADER_NAMESPACE'
 
 class Command
   getOptions: =>

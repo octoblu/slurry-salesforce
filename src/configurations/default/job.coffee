@@ -19,8 +19,8 @@ class PublicFilteredStream
     @_throttledMessage = _.throttle meshbluHttp.message, 500, leading: true, trailing: false
 
   do: ({slurry}, callback) =>
-    { topic, disabled } = slurry
-    return @_userError 422, "Requires Topic to subscribe" if !topic?
+    { topic, disabled } = slurry ? {}
+    return @_userError 422, "Requires Topic to subscribe" unless topic?
     return @_userError 422, "Missing instance URL in credentials device" if _.isEmpty @encrypted.secrets.instanceUrl
 
     slurryStream = new SlurryStream
